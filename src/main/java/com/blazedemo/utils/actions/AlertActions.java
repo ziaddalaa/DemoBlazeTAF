@@ -1,5 +1,7 @@
-package com.blazedemo.utils;
+package com.blazedemo.utils.actions;
 
+import com.blazedemo.utils.WaitManager;
+import com.blazedemo.utils.logs.LogsManager;
 import org.openqa.selenium.WebDriver;
 
 public class AlertActions {
@@ -20,6 +22,7 @@ public class AlertActions {
                         return true;
                     }
                     catch (Exception e){
+                        LogsManager.error("Error accepting alert:" + e.getMessage());
                         return false;
                     }
                 }
@@ -35,6 +38,7 @@ public class AlertActions {
                         return true;
                     }
                     catch (Exception e){
+                        LogsManager.error("Error dismissing alert:" + e.getMessage());
                         return false;
                     }
                 }
@@ -49,6 +53,7 @@ public class AlertActions {
                         return !alertText.isEmpty() ? alertText : null;
                     }
                     catch (Exception e){
+                        LogsManager.error("Error getting alert text:" + e.getMessage());
                         return null;
                     }
                 }
@@ -63,6 +68,7 @@ public class AlertActions {
                         return true;
                     }
                     catch (Exception e){
+                        LogsManager.error("Error setting alert text:" + e.getMessage());
                         return false;
                     }
                 }
