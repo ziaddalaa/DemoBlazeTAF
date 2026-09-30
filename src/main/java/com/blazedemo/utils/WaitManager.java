@@ -1,5 +1,6 @@
 package com.blazedemo.utils;
 
+import com.blazedemo.utils.dataReader.PropertyReader;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -20,7 +21,7 @@ public class WaitManager {
 
     public FluentWait<WebDriver> fluentWait(){
         return new FluentWait<>(driver)
-                .withTimeout(Duration.ofSeconds(10))
+                .withTimeout(Duration.ofSeconds(Long.parseLong(PropertyReader.getProperty("DEFAULT_WAIT"))))
                 .pollingEvery(Duration.ofMillis(200))
                 .ignoreAll(getExceptions());
     }
