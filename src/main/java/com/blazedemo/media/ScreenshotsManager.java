@@ -2,6 +2,7 @@ package com.blazedemo.media;
 
 import com.blazedemo.utils.TimeManager;
 import com.blazedemo.utils.logs.LogsManager;
+import com.blazedemo.utils.report.AllureAttachmentManager;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
@@ -12,7 +13,7 @@ import java.io.File;
 
 public class ScreenshotsManager {
 
-    private static final String SCREENSHOTS_PATH = "test-output/screenshots/";
+    public static final String SCREENSHOTS_PATH = "test-output/screenshots/";
 
     public static void takeFullPageScreenshot(WebDriver driver, String screenShotName){
         try{
@@ -22,7 +23,9 @@ public class ScreenshotsManager {
 
             FileUtils.copyFile(screenshotFileSrc, screenshotFileDest);
 
-            // TODO: attach screenshot to Allure report
+
+            AllureAttachmentManager.attachScreenshot(screenShotName, screenshotFileDest.getAbsolutePath());
+
             LogsManager.info("Screenshot taken: " + screenshotFileDest.getAbsolutePath());
         }
         catch (Exception e){
@@ -37,7 +40,8 @@ public class ScreenshotsManager {
             File screenshotFileDest = new File(SCREENSHOTS_PATH + ariaName + TimeManager.getTimeStamp() + ".png");
             FileUtils.copyFile(screenshotFileSrc, screenshotFileDest);
 
-            // TODO: attach screenshot to Allure report
+            AllureAttachmentManager.attachScreenshot(ariaName, screenshotFileDest.getAbsolutePath());
+
             LogsManager.info("Screenshot taken: " + screenshotFileDest.getAbsolutePath());
         } catch (Exception e) {
             LogsManager.error("Failed to take element screenshot:", e.getMessage());

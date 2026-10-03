@@ -1,9 +1,14 @@
 package com.blazedemo.utils.logs;
 
+import com.blazedemo.utils.report.AllureConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
+
 public class LogsManager {
+    public static final String LOGS_PATH = AllureConstants.USER_DIR + "test-output/Logs/";
+
     private static Logger logger(){
         return LogManager.getLogger(Thread.currentThread().getStackTrace()[2].getClassName());
     }
