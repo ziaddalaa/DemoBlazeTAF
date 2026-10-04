@@ -22,11 +22,11 @@ public abstract class BaseAssertion {
     protected abstract void assertEquals(String actual, String expected, String message);
 
 
-    protected void Equals(String actual, String expected, String message) {
+    public void Equals(String actual, String expected, String message) {
         assertEquals(actual, expected, message);
     }
 
-    protected void isElementVisible(By locator){
+    public void isElementVisible(By locator){
         boolean flag = waitManager.fluentWait().until(driver -> {
             try {
                 driver.findElement(locator).isDisplayed();
@@ -39,12 +39,12 @@ public abstract class BaseAssertion {
         assertTrue(flag, "Element is not visible: " + locator);
     }
 
-    protected void assertPageURL(String expectedURL){
+    public void assertPageURL(String expectedURL){
         String actualURL = driver.getCurrentUrl();
         assertEquals(actualURL, expectedURL, "Page URL does not match. Expected: " + expectedURL + ", Actual: " + actualURL);
     }
 
-    protected void assertPageTitle(String expectedTitle){
+    public void assertPageTitle(String expectedTitle){
         String actualTitle = driver.getTitle();
         assertEquals(actualTitle, expectedTitle, "Page title does not match. Expected: " + expectedTitle + ", Actual: " + actualTitle);
     }
