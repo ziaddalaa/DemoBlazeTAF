@@ -11,7 +11,7 @@ public class OSUtils {
     }
 
     public static OS getCurrentOS() {
-        String osName = PropertyReader.getProperty("os.name").toLowerCase();
+        String osName = System.getProperty("os.name").toLowerCase();
         if (osName.contains("win")) {
             return OS.WINDOWS;
         } else if (osName.contains("mac")) {

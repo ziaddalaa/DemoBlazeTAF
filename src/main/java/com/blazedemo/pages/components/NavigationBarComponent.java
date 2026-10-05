@@ -32,7 +32,7 @@ public class NavigationBarComponent {
     //actions
     @Step("Navigate to base URL")
     public NavigationBarComponent navigate(){
-        driver.browserActions().navigateTo(PropertyReader.getProperty("baseUrl"));
+        driver.browserActions().navigateTo(PropertyReader.getProperty("baseURLWeb"));
         return this;
     }
 

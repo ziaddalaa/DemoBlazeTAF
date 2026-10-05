@@ -19,6 +19,7 @@ public class GUIDriver {
     private ThreadLocal<WebDriver> driverThreadLocal= new ThreadLocal<>();
 
     public GUIDriver(){
+        LogsManager.info("Initializing GUIDriver" + browser);
         Browser browserType = Browser.valueOf(browser.toUpperCase());
         LogsManager.info("Initializing WebDriver for browser:" + browserType);
         AbstractDriver abstractDriver = browserType.getDriverFactory();

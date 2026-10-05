@@ -6,11 +6,13 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static com.blazedemo.utils.dataReader.PropertyReader.getProperty;
+
 public class AllureConstants {
 
     //Paths -> final - static
-    public static final Path USER_DIR = Paths.get(PropertyReader.getProperty("user.dir"), File.separator);
-    public static final Path USER_HOME = Paths.get(PropertyReader.getProperty("user.home"), File.separator);
+    public static final Path USER_DIR = Paths.get(System.getProperty("user.dir"), File.separator);
+    public static final Path USER_HOME = Paths.get(System.getProperty("user.home"), File.separator);
 
     public static final Path RESULTS_FOLDER = Paths.get(String.valueOf(USER_DIR),"test-output", "allure-results",File.separator);
     public static final Path REPORT_PATH = Paths.get(String.valueOf(USER_DIR),"test-output", "reports",File.separator); //single report .html

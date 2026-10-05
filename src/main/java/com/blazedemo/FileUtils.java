@@ -4,6 +4,9 @@ import com.blazedemo.utils.dataReader.PropertyReader;
 import com.blazedemo.utils.logs.LogsManager;
 
 import java.io.File;
+import java.io.IOException;
+
+import static org.apache.commons.io.FileUtils.copyFile;
 
 public class FileUtils {
 
@@ -13,23 +16,21 @@ public class FileUtils {
         // Prevent instantiation
     }
 
-    //Renaming
-    public static void renameFile(String oldName, String newName){
-        try{
-            File oldFile = new File(USER_DIR + oldName);
-            File newFile = new File(USER_DIR + newName);
-            if (oldFile.exists()){
-                if (oldFile.renameTo(newFile)){
-                    LogsManager.info("File renamed from " + oldName + " to " + newName);
-                } else {
-                    LogsManager.error("Failed to rename file from " + oldName + " to " + newName);
-                }
+    // Renaming
+    public static void renameFile(String oldName, String newName) {
+        try {
+            var targetFile = new File(oldName);
+            String targetDirectory = targetFile.getParentFile().getAbsolutePath();
+            File newFile = new File(targetDirectory + File.separator + newName);
+            if (!targetFile.getPath().equals(newFile.getPath())) {
+                copyFile(targetFile, newFile);
+                org.apache.commons.io.FileUtils.deleteQuietly(targetFile);
+                LogsManager.info("Target File Path: \"" + oldName + "\", file was renamed to \"" + newName + "\".");
             } else {
-                LogsManager.error("File not found: " + oldName);
+                LogsManager.info(("Target File Path: \"" + oldName + "\", already has the desired name \"" + newName + "\"."));
             }
-        }
-        catch (Exception e){
-            LogsManager.error("Error renaming file from " + oldName + " to " + newName, e.getMessage());
+        } catch (IOException e) {
+            LogsManager.error(e.getMessage());
         }
     }
 

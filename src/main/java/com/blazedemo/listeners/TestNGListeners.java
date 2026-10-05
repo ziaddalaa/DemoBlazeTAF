@@ -1,4 +1,4 @@
-package com.blazedemo.customlisteners;
+package com.blazedemo.listeners;
 
 import com.blazedemo.FileUtils;
 import com.blazedemo.drivers.WebDriverProvider;
@@ -18,7 +18,7 @@ import java.io.File;
 
 public class TestNGListeners implements IExecutionListener, IInvokedMethodListener, ITestListener {
     public void onExecutionStart() {
-        LogsManager.info("TestNG execution started");
+        LogsManager.info(   "TestNG execution started");
         cleanTestOutputDirs();
         LogsManager.info("Test output directories cleaned");
         createTestOutputDirs();
