@@ -6,6 +6,10 @@ import org.testng.Assert;
 //Hard Assertion class for verification of test cases
 public class Verification extends BaseAssertion{
 
+    public Verification() {
+        super();
+    }
+
     public Verification(WebDriver driver) {
         super(driver);
     }

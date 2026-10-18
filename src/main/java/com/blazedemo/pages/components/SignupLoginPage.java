@@ -7,7 +7,7 @@ import org.openqa.selenium.By;
 
 public class SignupLoginPage {
     private GUIDriver driver;
-    private final String signUpLoginEndPoint = "/login";
+    private final String signUpLoginEndPoint = "login";
     public SignupLoginPage(GUIDriver driver) {
         this.driver = driver;
     }
@@ -16,9 +16,9 @@ public class SignupLoginPage {
     private final By loginEmailInput = By.cssSelector("[data-qa='login-email']");
     private final By loginPasswordInput = By.cssSelector("[data-qa='login-password']");
     private final By loginButton = By.cssSelector("[data-qa='login-button']");
-    private final By registerNameInput = By.cssSelector("[data-qa='register-name']");
-    private final By registerEmailInput = By.cssSelector("[data-qa='register-email']");
-    private final By registerButton = By.cssSelector("[data-qa='register-button']");
+    private final By registerNameInput = By.cssSelector("input[data-qa='signup-name']");
+    private final By registerEmailInput = By.cssSelector("input[data-qa='signup-email']");
+    private final By registerButton = By.cssSelector("button[data-qa='signup-button']");
     private final By signUpLabel = By.cssSelector(".signup-form h2");
     private final By loginError = By.cssSelector(".login-form p");
     private final By signUpError = By.cssSelector(".signup-form p");
@@ -55,9 +55,9 @@ public class SignupLoginPage {
         return this;
     }
     @Step("Clicking on register button")
-    public SignupPage clickRegisterButton() {
+    public SignupLoginPage clickRegisterButton() {
         driver.elementActions().clickElement(registerButton);
-        return new SignupPage(driver);
+        return new SignupLoginPage(driver);
     }
     //validations
     @Step("Verify new user signup form is visible")

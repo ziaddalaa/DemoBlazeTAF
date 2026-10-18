@@ -4,6 +4,7 @@ import com.blazedemo.utils.WaitManager;
 import com.blazedemo.utils.logs.LogsManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.bidi.log.Log;
+import org.openqa.selenium.support.ui.Select;
 
 import java.io.File;
 
@@ -36,7 +37,7 @@ public class ElementActions {
     }
 
     //Typing
-    public void type(By locator, String text){
+    public ElementActions type(By locator, String text){
         waitManager.fluentWait().until(
                 d -> {
                     try {
@@ -52,6 +53,7 @@ public class ElementActions {
                     }
                 }
         );
+        return this;
     }
 
     //Getting text
@@ -100,6 +102,25 @@ public class ElementActions {
     //Function to scroll to an element using JS
     public void scrollToElementJS(By locator){
         ((JavascriptExecutor)driver)
-                .executeScript("arguments[0].scrollIntoView({behaviour:auto,block:'center',inline:'center'});", findElement(locator));
+                .executeScript("arguments[0].scrollIntoView({behaviour:'auto',block:'center',inline:'center'});", findElement(locator));
+    }
+
+    //Select from dropdown
+    public void selectFromDropdown(By locator, String value){
+        waitManager.fluentWait().until(
+                d -> {
+                    try {
+                        WebElement element = d.findElement(locator);
+                        scrollToElementJS(locator);
+                        Select select = new Select(element);
+                        select.selectByVisibleText(value);
+                        LogsManager.info("Selected value:" + value + " from dropdown with locator:" + locator);
+                        return true;
+                    }
+                    catch (Exception e){
+                        return false;
+                }
+                }
+        );
     }
 }

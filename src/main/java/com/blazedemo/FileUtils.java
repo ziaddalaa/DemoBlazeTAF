@@ -57,6 +57,15 @@ public class FileUtils {
         catch (Exception e){
             LogsManager.error("Error cleaning directory: " + file.getAbsolutePath(), e.getMessage());
         }
+    }
 
+    //Force delete
+    public static void forceDelete(File file){
+        try {
+            org.apache.commons.io.FileUtils.forceDelete(file);
+        }
+        catch (Exception e){
+            LogsManager.error("Error force deleting file: " + file.getAbsolutePath(), e.getMessage());
+        }
     }
 }
