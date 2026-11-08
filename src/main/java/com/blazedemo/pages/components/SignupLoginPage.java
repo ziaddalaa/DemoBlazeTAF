@@ -6,10 +6,12 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 public class SignupLoginPage {
+    public NavigationBarComponent navigationBarComponent;
     private GUIDriver driver;
     private final String signUpLoginEndPoint = "login";
     public SignupLoginPage(GUIDriver driver) {
         this.driver = driver;
+        this.navigationBarComponent = new NavigationBarComponent(driver);
     }
 
     //locators

@@ -1,0 +1,11 @@
+{
+  "name": "Automation Test",
+  "email": "automationtest4123_",
+  "password": "Test@123",
+  "firstName": "Automation",
+  "lastName": "Test",
+  "messages":
+  {
+    "errorMessage": "Your email or password is incorrect!"
+  }
+}

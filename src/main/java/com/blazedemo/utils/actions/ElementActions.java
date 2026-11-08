@@ -4,6 +4,7 @@ import com.blazedemo.utils.WaitManager;
 import com.blazedemo.utils.logs.LogsManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.bidi.log.Log;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
 import java.io.File;
@@ -19,12 +20,20 @@ public class ElementActions {
     }
 
     //Clicking
-    public void clickElement(By locator){
+    public ElementActions clickElement(By locator){
         waitManager.fluentWait().until(
                 d -> {
                     try {
                         WebElement element = d.findElement(locator);
                         scrollToElementJS(locator);
+                        //Wait until the element is stable
+                        Point initialLocation = element.getLocation();
+                        LogsManager.info("Waiting for element with locator:" + locator + " to be stable before clicking");
+                        Point finalLocation = element.getLocation();
+                        LogsManager.info("Element with locator:" + locator + " is stable. Proceeding to click");
+                        if (!initialLocation.equals(finalLocation)){
+                            return false;
+                        }
                         element.click();
                         LogsManager.info("Clicked on element with locator" + locator);
                         return true;
@@ -34,6 +43,7 @@ public class ElementActions {
                     }
                 }
         );
+        return this;
     }
 
     //Typing
@@ -56,6 +66,24 @@ public class ElementActions {
         return this;
     }
 
+    //Hovering
+    public ElementActions hoverOnElement(By locator){
+        waitManager.fluentWait().until( d->
+        {
+            try {
+                WebElement element = d.findElement(locator);
+                scrollToElementJS(locator);
+                new Actions(d).moveToElement(element).perform();
+                LogsManager.info("Hovered on element with locator:" + locator);
+                return true;
+            }
+            catch (Exception e){
+                return false;
+            }
+        });
+        return this;
+    }
+
     //Getting text
     public String getText(By locator) {
 
@@ -75,7 +103,7 @@ public class ElementActions {
     }
 
     //Upload File
-    public void uploadFile(By locator, String filePath){
+    public ElementActions uploadFile(By locator, String filePath){
         String fileAbsolutePath = System.getProperty("user.dir") + File.separator + filePath;
         waitManager.fluentWait().until(
                 d -> {
@@ -91,6 +119,7 @@ public class ElementActions {
                     }
                 }
         );
+        return this;
     }
 
     //Find an element
@@ -106,7 +135,7 @@ public class ElementActions {
     }
 
     //Select from dropdown
-    public void selectFromDropdown(By locator, String value){
+    public ElementActions selectFromDropdown(By locator, String value){
         waitManager.fluentWait().until(
                 d -> {
                     try {
@@ -122,5 +151,6 @@ public class ElementActions {
                 }
                 }
         );
+        return this;
     }
 }

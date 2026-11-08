@@ -53,6 +53,32 @@ public class UserManagementAPI {
         return this;
     }
 
+    @Step("Create user account with minimal details")
+    public UserManagementAPI createAccount(String name, String email, String password,String firstname, String lastname){
+        Map<String, String> formParams = new HashMap<>();
+        formParams.put("name", name);
+        formParams.put("email", email);
+        formParams.put("password", password);
+        formParams.put("title", "Mr");
+        formParams.put("birth_date", "12");
+        formParams.put("birth_month", "March");
+        formParams.put("birth_year", "2001");
+        formParams.put("firstname", firstname);
+        formParams.put("lastname", lastname);
+        formParams.put("company", "Test Company");
+        formParams.put("address1", "123 Test Street");
+        formParams.put("address2", "Apt 4B");
+        formParams.put("country", "India");
+        formParams.put("zipcode", "12345");
+        formParams.put("state", "CA");
+        formParams.put("city", "Delhi");
+        formParams.put("mobile_number", "0123456789");
+        response = requestSpecification.spec(Builder.getUserManagementRequestSpecification(formParams))
+                .post(createAccount_endpoint);
+        LogsManager.info("Create account response: " + response.asPrettyString());
+        return this;
+    }
+
     @Step("Delete user account with email: {email}")
     public UserManagementAPI deleteAccount(String email, String password){
         Map<String, String> formParams = new HashMap<>();

@@ -7,15 +7,24 @@ import com.blazedemo.pages.components.SignupLoginPage;
 import com.blazedemo.pages.components.SignupPage;
 import com.blazedemo.tests.BaseTest;
 import com.blazedemo.utils.TimeManager;
+import com.blazedemo.utils.dataReader.JsonReader;
+import io.qameta.allure.*;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+@Epic("Automation Exercises - Register Tests")
+@Feature("UI User Management - Register Tests")
+@Story("User Register")
+@Severity(SeverityLevel.CRITICAL)
+@Owner("Ziad Aladin")
 public class RegisterTest extends BaseTest {
 
     String timestamp = TimeManager.getSimpleTimeStamp();
 
     //Tests
+    @Description("Verify that user is able to register successfully")
     @Test
     public void validSignUpTC(){
         new SignupLoginPage(driver).navigate()
@@ -41,8 +50,14 @@ public class RegisterTest extends BaseTest {
                         testData.getJsonData("mobileNumber"))
                 .clickCreateAccountButton()
                 .isAccountCreatedMessageDisplayed();
+
+        new UserManagementAPI().deleteAccount(
+                        testData.getJsonData("email") + timestamp + "@test.com",
+                        testData.getJsonData("password"))
+                .verifyUserDeletedSuccessfully();
     }
 
+    @Description("Verify error message for existing email")
     @Test
     public void verifyErrorMessageForExistingEmailTC(){
         //precondition: create an account
@@ -73,11 +88,22 @@ public class RegisterTest extends BaseTest {
                 .clickRegisterButton()
                 .verifySignupErrorMessage(testData.getJsonData("messages.errorMessage"));
 
+        new UserManagementAPI().deleteAccount(
+                        testData.getJsonData("email") + timestamp + "@test.com",
+                        testData.getJsonData("password"))
+                .verifyUserDeletedSuccessfully();
+
     }
 
 
 
     //Configurations
+    @BeforeClass
+    public void preCondition(){
+        testData = new JsonReader("register-data");
+
+    }
+
     @BeforeMethod
     public void setUp(){
         driver = new GUIDriver();
