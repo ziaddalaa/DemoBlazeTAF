@@ -26,8 +26,9 @@ public abstract class BaseAssertion {
     protected abstract void assertEquals(String actual, String expected, String message);
 
 
-    public void Equals(String actual, String expected, String message) {
+    public BaseAssertion Equals(String actual, String expected, String message) {
         assertEquals(actual, expected, message);
+        return this;
     }
 
     public void isElementVisible(By locator){

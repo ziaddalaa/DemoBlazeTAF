@@ -1,0 +1,16 @@
+{
+  "product": {
+    "name": "Blue Top",
+    "price": "Rs. 500",
+    "quantity": "1",
+    "total": "Rs. 500"
+  },
+  "review": {
+    "name": "Automation Doe",
+    "email": "automation.doe@example.com",
+    "reviewTxt": "Testing here"
+  },
+  "messages": {
+    "addedToCart": "Your product has been added to cart."
+  }
+}

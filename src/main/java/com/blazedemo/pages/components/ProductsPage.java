@@ -4,6 +4,7 @@ import com.blazedemo.drivers.GUIDriver;
 import com.blazedemo.utils.dataReader.PropertyReader;
 import com.blazedemo.utils.logs.LogsManager;
 import io.qameta.allure.Step;
+import org.checkerframework.checker.units.qual.C;
 import org.openqa.selenium.By;
 
 public class ProductsPage {
@@ -26,18 +27,18 @@ public class ProductsPage {
 
     //dynamic locators
     private By productName(String productName){
-        return By.xpath("//div[@class='overlay-content'] /p[.='" + productName + "']");
+        return By.xpath("//div[@class='productinfo text-center'] /p[.='" + productName + "']");
     }
     private By productPrice(String productName){
-        return By.xpath("//div[@class='overlay-content'] /p[.='" + productName + "'] //preceding-sibling::h2");
+        return By.xpath("//div[@class='productinfo text-center'] /p[.='" + productName + "'] //preceding-sibling::h2");
     }
 
     private By hoverOnProduct(String productName){
-        return By.xpath("//div[@class,'productinfo text-center'] /p[.='" + productName + "']");
+        return By.xpath("//div[@class='productinfo text-center'] /p[.='" + productName + "']");
     }
 
     private By addToCartButton(String productName){
-        return By.xpath("//div[@class,'productinfo text-center'] /p[.='" + productName + "'] //following-sibling::a");
+        return By.xpath("//div[@class='productinfo text-center'] /p[.='" + productName + "'] //following-sibling::a");
     }
 
     private By viewProduct(String productName){
@@ -75,9 +76,9 @@ public class ProductsPage {
     }
 
     @Step("Click on View Cart button")
-    public ProductsPage clickViewCart(){
+    public CartPage clickViewCart(){
         driver.elementActions().clickElement(viewCartButton);
-        return this;
+        return new CartPage(driver);
     }
 
     @Step("Click on Continue Shopping")
@@ -90,7 +91,7 @@ public class ProductsPage {
     @Step("Validate product details: {productName} and price: {productPrice}")
     public ProductsPage validateProductDetails(String productName, String productPrice){
         String actualProductName = driver.elementActions().hoverOnElement(productName(productName)).getText(productName(productName));
-        String actualProductPrice = driver.elementActions().hoverOnElement(productName(productName)).getText(this.productPrice(productPrice));
+        String actualProductPrice = driver.elementActions().hoverOnElement(productName(productName)).getText(this.productPrice(productName));
         driver.validation().Equals(actualProductName, productName, "Product name does not match");
         driver.validation().Equals(actualProductPrice, productPrice, "Product price does not match");
         LogsManager.info("Validating product details. Expected: " + productName + " and " + productPrice + ". Actual: " + actualProductName + " and " + actualProductPrice);

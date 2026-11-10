@@ -2,6 +2,7 @@ package com.blazedemo.validations;
 
 import com.blazedemo.utils.logs.LogsManager;
 import org.openqa.selenium.WebDriver;
+import org.testng.ITestResult;
 import org.testng.asserts.SoftAssert;
 
 //Soft Assertion class for validation of test cases
@@ -36,14 +37,15 @@ public class Validation extends BaseAssertion{
         softAssert.assertEquals(actual, expected, message);
     }
 
-    public static void assertAll() {
+    public static void assertAll(ITestResult result) {
         if(!used) return;
         try{
             softAssert.assertAll();
         }
         catch (AssertionError e){
             LogsManager.error("Soft Assertion failed: " + e.getMessage());
-            throw e;
+            result.setStatus(ITestResult.FAILURE);
+            result.setThrowable(e);
         }
         finally {
             softAssert = new SoftAssert(); // Reset softAssert for the next test

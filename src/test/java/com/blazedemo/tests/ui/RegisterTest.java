@@ -29,7 +29,7 @@ public class RegisterTest extends BaseTest {
     public void validSignUpTC(){
         new SignupLoginPage(driver).navigate()
                 .enterRegisterName(testData.getJsonData("name"))
-                .enterRegisterEmail(testData.getJsonData("email") + timestamp + "@test.com")
+                .enterRegisterEmail(testData.getJsonData("email") + timestamp + "@gmail.com")
                 .clickRegisterButton();
                 new SignupPage(driver)
                 .fillRegistrationForm(
@@ -52,7 +52,7 @@ public class RegisterTest extends BaseTest {
                 .isAccountCreatedMessageDisplayed();
 
         new UserManagementAPI().deleteAccount(
-                        testData.getJsonData("email") + timestamp + "@test.com",
+                        testData.getJsonData("email") + timestamp + "@gmail.com",
                         testData.getJsonData("password"))
                 .verifyUserDeletedSuccessfully();
     }
@@ -63,7 +63,7 @@ public class RegisterTest extends BaseTest {
         //precondition: create an account
         new UserManagementAPI().createAccount(
                 testData.getJsonData("name"),
-                testData.getJsonData("email") + timestamp + "@test.com",
+                testData.getJsonData("email") + timestamp + "@gmail.com",
                 testData.getJsonData("password"),
                 testData.getJsonData("titleMale"),
                 testData.getJsonData("day"),
@@ -84,12 +84,12 @@ public class RegisterTest extends BaseTest {
 
         new SignupLoginPage(driver).navigate()
                 .enterRegisterName(testData.getJsonData("name"))
-                .enterRegisterEmail(testData.getJsonData("email") + timestamp + "@test.com")
+                .enterRegisterEmail(testData.getJsonData("email") + timestamp + "@gmail.com")
                 .clickRegisterButton()
                 .verifySignupErrorMessage(testData.getJsonData("messages.errorMessage"));
 
         new UserManagementAPI().deleteAccount(
-                        testData.getJsonData("email") + timestamp + "@test.com",
+                        testData.getJsonData("email") + timestamp + "@gmail.com",
                         testData.getJsonData("password"))
                 .verifyUserDeletedSuccessfully();
 
