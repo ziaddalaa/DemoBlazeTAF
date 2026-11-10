@@ -21,7 +21,7 @@ public class ProductsPage {
     private final By searchField = By.id("search_product");
     private final By searchButton = By.id("submit_search");
     private final By itemAddedToCartMessage = By.cssSelector(".modal-body > p");
-    private final By viewCartButton = By.cssSelector(".text-center > [href=\"/view_cart\"]");
+    private final By viewCartButton = By.cssSelector("p > [href=\"/view_cart\"]");
     private final By continueShoppingButton = By.cssSelector(".modal-footer > button");
 
     //dynamic locators
@@ -33,11 +33,15 @@ public class ProductsPage {
     }
 
     private By hoverOnProduct(String productName){
-        return By.xpath("//div[@class='productinfo text-center'] /p[.='" + productName + "']");
+        return By.xpath("//div[@class,'productinfo text-center'] /p[.='" + productName + "']");
     }
 
     private By addToCartButton(String productName){
-        return By.xpath("//div[@class='productinfo text-center'] /p[.='" + productName + "'] //following-sibling::a");
+        return By.xpath("//div[@class,'productinfo text-center'] /p[.='" + productName + "'] //following-sibling::a");
+    }
+
+    private By viewProduct(String productName){
+        return By.xpath("//p[.='" + productName + "'] //following::div[@class='choose'][1]");
     }
 
 
@@ -62,6 +66,12 @@ public class ProductsPage {
         driver.elementActions().hoverOnElement(hoverOnProduct(productName))
                 .clickElement(addToCartButton(productName));
         return this;
+    }
+
+    @Step("Click on View Product: {productName}")
+    public ProductDetailsPage clickViewProduct(String productName){
+        driver.elementActions().clickElement(viewProduct(productName));
+        return new ProductDetailsPage(driver);
     }
 
     @Step("Click on View Cart button")

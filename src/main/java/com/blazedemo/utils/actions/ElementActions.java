@@ -73,6 +73,14 @@ public class ElementActions {
             try {
                 WebElement element = d.findElement(locator);
                 scrollToElementJS(locator);
+                //Wait until the element is stable
+                Point initialLocation = element.getLocation();
+                LogsManager.info("Waiting for element with locator:" + locator + " to be stable before hovering");
+                Point finalLocation = element.getLocation();
+                LogsManager.info("Element with locator:" + locator + " is stable. Proceeding to hover");
+                if (!initialLocation.equals(finalLocation)){
+                    return false;
+                }
                 new Actions(d).moveToElement(element).perform();
                 LogsManager.info("Hovered on element with locator:" + locator);
                 return true;
