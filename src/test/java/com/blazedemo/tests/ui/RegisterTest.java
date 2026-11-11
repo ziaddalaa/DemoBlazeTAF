@@ -2,6 +2,7 @@ package com.blazedemo.tests.ui;
 
 import com.blazedemo.apis.UserManagementAPI;
 import com.blazedemo.drivers.GUIDriver;
+import com.blazedemo.drivers.UITest;
 import com.blazedemo.pages.components.NavigationBarComponent;
 import com.blazedemo.pages.components.SignupLoginPage;
 import com.blazedemo.pages.components.SignupPage;
@@ -19,6 +20,7 @@ import org.testng.annotations.Test;
 @Story("User Register")
 @Severity(SeverityLevel.CRITICAL)
 @Owner("Ziad Aladin")
+@UITest
 public class RegisterTest extends BaseTest {
 
     String timestamp = TimeManager.getSimpleTimeStamp();

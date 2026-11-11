@@ -2,15 +2,22 @@ package com.blazedemo.tests.ui;
 
 import com.blazedemo.apis.UserManagementAPI;
 import com.blazedemo.drivers.GUIDriver;
+import com.blazedemo.drivers.UITest;
 import com.blazedemo.pages.components.NavigationBarComponent;
 import com.blazedemo.pages.components.SignupLoginPage;
 import com.blazedemo.tests.BaseTest;
 import com.blazedemo.utils.TimeManager;
-import io.qameta.allure.Description;
+import io.qameta.allure.*;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+@Epic("Automation Exercises - Login Tests")
+@Feature("UI Login Management - Login Tests")
+@Story("Login Management")
+@Severity(SeverityLevel.CRITICAL)
+@Owner("Ziad Aladin")
+@UITest
 public class LoginTest extends BaseTest {
 
     String timestamp = TimeManager.getSimpleTimeStamp();

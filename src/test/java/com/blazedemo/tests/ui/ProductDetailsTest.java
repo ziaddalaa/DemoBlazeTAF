@@ -1,6 +1,7 @@
 package com.blazedemo.tests.ui;
 
 import com.blazedemo.drivers.GUIDriver;
+import com.blazedemo.drivers.UITest;
 import com.blazedemo.pages.components.NavigationBarComponent;
 import com.blazedemo.pages.components.ProductsPage;
 import com.blazedemo.tests.BaseTest;
@@ -16,6 +17,7 @@ import org.testng.annotations.Test;
 @Story("Product Details Management")
 @Severity(SeverityLevel.CRITICAL)
 @Owner("Ziad Aladin")
+@UITest
 public class ProductDetailsTest extends BaseTest {
 
     @Test

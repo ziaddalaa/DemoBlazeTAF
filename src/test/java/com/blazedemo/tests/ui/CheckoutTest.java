@@ -2,6 +2,7 @@ package com.blazedemo.tests.ui;
 
 import com.blazedemo.apis.UserManagementAPI;
 import com.blazedemo.drivers.GUIDriver;
+import com.blazedemo.drivers.UITest;
 import com.blazedemo.pages.components.CartPage;
 import com.blazedemo.pages.components.NavigationBarComponent;
 import com.blazedemo.pages.components.ProductsPage;
@@ -9,8 +10,15 @@ import com.blazedemo.pages.components.SignupLoginPage;
 import com.blazedemo.tests.BaseTest;
 import com.blazedemo.utils.TimeManager;
 import com.blazedemo.utils.dataReader.JsonReader;
+import io.qameta.allure.*;
 import org.testng.annotations.*;
 
+@Epic("Automation Exercises - Checkout Tests")
+@Feature("UI Checkout Management - Checkout Tests")
+@Story("Checkout Management")
+@Severity(SeverityLevel.CRITICAL)
+@Owner("Ziad Aladin")
+@UITest
 public class CheckoutTest extends BaseTest {
 
     String timestamp = TimeManager.getSimpleTimeStamp();
@@ -106,6 +114,15 @@ public class CheckoutTest extends BaseTest {
                 .verifyCalculatedSum()
                 .clickCheckoutButton();
 
+    }
+
+    @Test(dependsOnMethods = {"checkout", "addProductToCart", "loginToAccount", "registerNewAccount"})
+    public void deleteAccountAsPostCondition(){
+        new UserManagementAPI().deleteAccount(
+                testData.getJsonData("email") + timestamp + "@gmail.com",
+                testData.getJsonData("password")
+        )
+                .verifyUserDeletedSuccessfully();
     }
 
 

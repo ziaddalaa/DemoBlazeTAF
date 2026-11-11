@@ -29,9 +29,17 @@
     "quantity": "1",
     "total": "Rs. 500"
   },
+  "cardDetails": {
+    "cardName": "Automation Checkout",
+    "cardNumber": "1234567890103456",
+    "cvv": "123",
+    "expirationMonth": "12",
+    "expirationYear": "2025"
+  },
   "messages":
   {
-    "addedToCart": "Your product has been added to cart."
+    "addedToCart": "Your product has been added to cart.",
+    "paymentSuccess": "ORDER PLACED!"
   }
 }
 

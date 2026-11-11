@@ -1,6 +1,7 @@
 package com.blazedemo.listeners;
 
 import com.blazedemo.FileUtils;
+import com.blazedemo.drivers.UITest;
 import com.blazedemo.drivers.WebDriverProvider;
 import com.blazedemo.media.ScreenrecordsManager;
 import com.blazedemo.media.ScreenshotsManager;
@@ -39,7 +40,11 @@ public class TestNGListeners implements IExecutionListener, IInvokedMethodListen
 
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
         if (method.isTestMethod()) {
-            ScreenrecordsManager.startRecording();
+            if (testResult.getInstance() instanceof UITest)
+                {
+                    ScreenrecordsManager.startRecording();
+
+                }
             LogsManager.info("Starting test: " + testResult.getMethod().getMethodName());
         }
     }
@@ -47,18 +52,23 @@ public class TestNGListeners implements IExecutionListener, IInvokedMethodListen
     public void afterInvocation(IInvokedMethod method, ITestResult testResult) {
         WebDriver driver = null;
         if(method.isTestMethod()){
-            ScreenrecordsManager.stopRecording(testResult.getName());
-            Validation.assertAll(testResult);
-            if(testResult.getInstance() instanceof WebDriverProvider provider)
-                driver = provider.getWebDriver();
+            if (testResult.getInstance() instanceof UITest){
+                ScreenrecordsManager.stopRecording(testResult.getName());
 
-            switch (testResult.getStatus()) {
-                case ITestResult.SUCCESS -> ScreenshotsManager.takeFullPageScreenshot(driver, "passed-" + testResult.getName());
-                case ITestResult.FAILURE -> ScreenshotsManager.takeFullPageScreenshot(driver, "failed-" + testResult.getName());
-                case ITestResult.SKIP -> ScreenshotsManager.takeFullPageScreenshot(driver, "skipped-" + testResult.getName());
-        }
+                if(testResult.getInstance() instanceof WebDriverProvider provider)
+                    driver = provider.getWebDriver();
+
+                switch (testResult.getStatus()) {
+                    case ITestResult.SUCCESS -> ScreenshotsManager.takeFullPageScreenshot(driver, "passed-" + testResult.getName());
+                    case ITestResult.FAILURE -> ScreenshotsManager.takeFullPageScreenshot(driver, "failed-" + testResult.getName());
+                    case ITestResult.SKIP -> ScreenshotsManager.takeFullPageScreenshot(driver, "skipped-" + testResult.getName());
+                }
+
+                AllureAttachmentManager.attachRecords(testResult.getName());
+            }
+            Validation.assertAll(testResult);
+
             AllureAttachmentManager.attachLogs();
-            AllureAttachmentManager.attachRecords(testResult.getName());
     }
     }
 
