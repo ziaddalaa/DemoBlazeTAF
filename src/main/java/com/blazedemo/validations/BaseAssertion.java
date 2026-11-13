@@ -2,6 +2,7 @@ package com.blazedemo.validations;
 
 import com.blazedemo.utils.WaitManager;
 import com.blazedemo.utils.actions.ElementActions;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -52,5 +53,14 @@ public abstract class BaseAssertion {
     public void assertPageTitle(String expectedTitle){
         String actualTitle = driver.getTitle();
         assertEquals(actualTitle, expectedTitle, "Page title does not match. Expected: " + expectedTitle + ", Actual: " + actualTitle);
+    }
+
+    // Verify that file exists
+    public void assertFileExists(String fileName, String message) {
+//        boolean fileExists = com.blazedemo.FileUtils.isFileExist(fileName,3);
+        waitManager.fluentWait().until(driver -> {
+            return com.blazedemo.FileUtils.isFileExists(fileName);
+        });
+        assertTrue(com.blazedemo.FileUtils.isFileExists(fileName), message);
     }
 }

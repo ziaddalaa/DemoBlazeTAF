@@ -3,28 +3,59 @@ package com.blazedemo.drivers;
 import com.blazedemo.utils.dataReader.PropertyReader;
 import com.blazedemo.utils.logs.LogsManager;
 import org.openqa.selenium.PageLoadStrategy;
+import org.openqa.selenium.UnexpectedAlertBehaviour;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.io.File;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ChromeFactory extends AbstractDriver{
 
 
-    private ChromeOptions getOptions(){
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*");
-        chromeOptions.addArguments("--start-maximized");
-        if(PropertyReader.getProperty("executionType").equalsIgnoreCase("LocalHeadless")
-                || PropertyReader.getProperty("executionType").equalsIgnoreCase("Remote")){
-            chromeOptions.addArguments("--headless");
+    private ChromeOptions getOptions() {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
+        options.addArguments("--disable-notifications");
+        options.addArguments("--disable-popup-blocking");
+        options.addArguments("--disable-infobars");
+        options.addArguments("--start-maximized");
+        Map<String, Object> prefs = new HashMap<>();
+        String userDir = System.getProperty("user.dir");
+        String downloadPath = userDir +
+                File.separator +
+                "src"
+                + File.separator +
+                "test" +
+                File.separator +
+                "resources" +
+                File.separator +
+                "downloads";
+        prefs.put("profile.default_content_settings.popups", 0);
+        prefs.put("download.prompt_for_download", false);
+        prefs.put("download.directory_upgrade", true);
+        prefs.put("download.default_directory", downloadPath);
+        options.setExperimentalOption("prefs", prefs);
+        options.setUnhandledPromptBehaviour(UnexpectedAlertBehaviour.IGNORE);
+        options.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
+        options.setCapability(CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
+//        options.setCapability(CapabilityType.ENABLE_DOWNLOADS, true);
+        options.setAcceptInsecureCerts(true);
+        switch (PropertyReader.getProperty("executionType")) {
+            case "LocalHeadless" -> options.addArguments("--headless=new");
+            case "Remote" -> {
+                options.addArguments("--disable-gpu");
+                options.addArguments("--disable-extensions");
+                options.addArguments("--headless=new");
+            }
         }
-        chromeOptions.setAcceptInsecureCerts(true);
-        chromeOptions.setPageLoadStrategy(PageLoadStrategy.EAGER);
-        return chromeOptions;
-
+        options.setPageLoadStrategy(PageLoadStrategy.EAGER);
+        return options;
     }
 
     @Override

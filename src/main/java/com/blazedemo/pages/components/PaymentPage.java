@@ -36,10 +36,21 @@ public class PaymentPage {
         return this;
     }
 
+    @Step("Click on download invoice button")
+    public PaymentPage clickOnDownloadInvoiceButton() {
+        driver.elementActions().clickElement(downloadInvoiceButton);
+        return this;
+    }
+
     //validations
     @Step("Verify Payment Success Message")
     public PaymentPage verifyPaymentSuccessMsg(String expectedMsg){
         driver.verification().Equals(driver.elementActions().getText(successMessage), expectedMsg, "Payment Success Message");
+        return this;
+    }
+
+    public PaymentPage verifyDownloadedFile(String invoiceName) {
+        driver.verification().assertFileExists(invoiceName, "File is not existed");
         return this;
     }
 }

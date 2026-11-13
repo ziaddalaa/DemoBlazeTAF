@@ -68,4 +68,34 @@ public class FileUtils {
             LogsManager.error("Error force deleting file: " + file.getAbsolutePath(), e.getMessage());
         }
     }
+
+    //check if the file exists
+    public static boolean isFileExists(String fileName) {
+        String downloadsPath = System.getProperty("user.dir") + File.separator + "/src/test/resources/downloads/";
+        File file = new File(downloadsPath + fileName);
+        return file.exists();
+    }
+
+    //wait for file to be downloaded
+    public static boolean isFileExist(String fileName, int numberOfRetries) {
+        boolean isFileExist = false;
+        int i = 0;
+        while (i < numberOfRetries) {
+            try {
+                String filePath = USER_DIR + "/src/test/resources/downloads/" ;
+                isFileExist = (new File(filePath + fileName)).getAbsoluteFile().exists();
+            } catch (Exception e) {
+                LogsManager.error( e.getMessage());
+            }
+            if (!isFileExist) {
+                try {
+                    Thread.sleep(500);
+                } catch (Exception e) {
+                    LogsManager.error(e.getMessage());
+                }
+            }
+            i++;
+        }
+        return isFileExist;
+    }
 }

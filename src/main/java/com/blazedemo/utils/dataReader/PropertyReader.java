@@ -4,6 +4,7 @@ import com.blazedemo.utils.logs.LogsManager;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.Collection;
 import java.util.Properties;
 
@@ -21,12 +22,14 @@ public class PropertyReader {
 
             propertiesFiles.forEach(file -> {
                 try {
-                    props.load(FileUtils.openInputStream(file));
+                    props.load(new FileInputStream(file));
                 } catch (Exception e) {
                     LogsManager.error("Error loading properties file:", file.getName(), e.getMessage());
                 }
+                props.putAll(System.getProperties());
+                System.getProperties().putAll(props);
             });
-
+            LogsManager.info("Properties file loaded successfully");
             return props;
         } catch (Exception e) {
             LogsManager.error("Error loading properties file:", e.getMessage());

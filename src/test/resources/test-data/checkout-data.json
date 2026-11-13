@@ -40,6 +40,7 @@
   {
     "addedToCart": "Your product has been added to cart.",
     "paymentSuccess": "ORDER PLACED!"
-  }
+  },
+    "invoiceName": "invoice.txt"
 }
 

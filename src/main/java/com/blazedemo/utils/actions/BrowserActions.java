@@ -1,5 +1,7 @@
 package com.blazedemo.utils.actions;
 
+import com.blazedemo.utils.WaitManager;
+import com.blazedemo.utils.dataReader.PropertyReader;
 import com.blazedemo.utils.logs.LogsManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WindowType;
@@ -7,9 +9,11 @@ import org.openqa.selenium.WindowType;
 public class BrowserActions {
 
     private final WebDriver driver;
+    private WaitManager waitManager;
 
     public BrowserActions(WebDriver driver){
         this.driver = driver;
+        this.waitManager = new WaitManager(driver);
     }
 
     public void maximizeWindow(){
@@ -36,5 +40,27 @@ public class BrowserActions {
 
     public void openNewWindow(){
         driver.switchTo().newWindow(WindowType.WINDOW);
+    }
+
+    //close extension tab
+    public void closeExtensionTab() {
+        if (PropertyReader.getProperty("extensions").equalsIgnoreCase("enabled"))
+        {
+            String currentWindowHandle = driver.getWindowHandle(); //0 1
+            waitManager.fluentWait().until(
+                    d ->
+                    {
+                        return d.getWindowHandles().size() > 1; //wait until extension tab is opened
+                    }
+            );
+            for (String windowHandle : driver.getWindowHandles()) //extension tab is opened
+            {
+                if (!windowHandle.equals(currentWindowHandle))
+                    driver.switchTo().window(windowHandle).close(); //close the extension tab
+            }
+            driver.switchTo().window(currentWindowHandle); //switch back to the main window
+            LogsManager.info("Extension tab closed");
+        }
+
     }
 }
