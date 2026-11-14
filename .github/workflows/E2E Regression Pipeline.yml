@@ -11,10 +11,10 @@ on:
     - cron: '00 21 * * *'
   workflow_dispatch:
 
-  env:
-    TARGET: "%regex[.*Tests.*],com.blazedemo.tests.**.**,com.blazedemo.tests.**"
+env:
+  TARGET: "%regex[.*Tests.*],com.blazedemo.tests.**.**,com.blazedemo.tests.**"
 
-  jobs:
+jobs:
     Chrome_Linux_Test:
       runs-on: ubuntu-latest
       permissions:
